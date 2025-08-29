@@ -7,14 +7,22 @@
 
 import Cocoa
 import Carbon
+import SwiftUI
 
 class KeyboardLockManager: ObservableObject {
     @Published var isKeyboardLocked = false
     @Published var permissionEnabled: Bool = false
     private var eventTap: CFMachPort?
     
+    @AppStorage("isStartAuto") private var isStartAuto: Bool = false
+    
     init() {
         permissionEnabled = requestAccessibilityPermissions()
+        
+        if isStartAuto == true {
+            startKeyboardLock()
+            isKeyboardLocked = true
+        }
     }
     
     func requestAccessibilityPermissions() -> Bool {
@@ -26,9 +34,7 @@ class KeyboardLockManager: ObservableObject {
         }
         
         if !accessEnabled {
-            print("Accessibility permissions required for keyboard locking")
             return false
-
         }
         
         return false
@@ -42,8 +48,6 @@ class KeyboardLockManager: ObservableObject {
         } else {
             stopKeyboardLock()
         }
-        
-        print("Keyboard \(isKeyboardLocked ? "locked" : "unlocked")")
     }
     
     private func startKeyboardLock() {
@@ -80,21 +84,16 @@ class KeyboardLockManager: ObservableObject {
                 if manager.isKeyboardLocked {
                     switch type.rawValue {
                     case CGEventType.keyDown.rawValue, CGEventType.keyUp.rawValue:
-                        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-                        print("Keyboard event blocked (key code: \(keyCode))")
-                        
+                        _ = event.getIntegerValueField(.keyboardEventKeycode)
                     case CGEventType.flagsChanged.rawValue:
-                        print("Modifier key event blocked")
+                        break
                     case 14: // NX_SYSDEFINED
                         let subType = event.getIntegerValueField(.eventSourceUserData)
-                        let keyCode = (subType & 0xFFFF0000) >> 16
+                        let _ = (subType & 0xFFFF0000) >> 16
                         let keyFlags = subType & 0x0000FFFF
-                        let keyDown = (keyFlags & 0x0100) != 0
-                        
-                        print("System event blocked - KeyCode: \(keyCode), KeyDown: \(keyDown)")
-                        
+                        let _ = (keyFlags & 0x0100) != 0
                     default:
-                        print("Other event blocked - Type: \(type.rawValue)")
+                        break
                     }
                     
                     return nil
@@ -122,7 +121,6 @@ class KeyboardLockManager: ObservableObject {
             self.eventTap = nil
         }
         isKeyboardLocked = false
-        print("Keyboard unlocked")
     }
     
     func cleanup() {
