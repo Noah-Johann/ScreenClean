@@ -34,7 +34,7 @@ See [Releases](https://github.com/Noah-Johann/ScreenClean/releases) for the late
 
 
 ### System Requirements
-- **macOS 12 Monterey or later**
+- **macOS 13 Ventura or later**
 
 ## License
 ScreenClean is licensed under the MIT License. See [`License.md`](/LICENSE) for more details.
