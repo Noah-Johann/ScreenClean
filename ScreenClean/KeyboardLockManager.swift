@@ -16,29 +16,13 @@ class KeyboardLockManager: ObservableObject {
     
     @AppStorage("isStartAuto") private var isStartAuto: Bool = false
     
-    init() {
-        permissionEnabled = requestAccessibilityPermissions()
-        
+    init() {        
         if isStartAuto == true {
             startKeyboardLock()
             isKeyboardLocked = true
         }
     }
     
-    func requestAccessibilityPermissions() -> Bool {
-        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
-        let accessEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary)
-        
-        if accessEnabled {
-            return true
-        }
-        
-        if !accessEnabled {
-            return false
-        }
-        
-        return false
-    }
     
     func toggleKeyboardLock() {
         isKeyboardLocked.toggle()
