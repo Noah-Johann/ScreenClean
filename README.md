@@ -11,7 +11,7 @@
 ## Features
 
 - ScreenClean hides all your content from your screen so you can clean your Mac display without distractions.
-- Lock your complete keyboard with a single button press so you can clean it without pressing random keys, skipping to the next song or activateing Siri.
+- Lock your complete keyboard with a single button press so you can clean it without pressing random keys, skipping to the next song or activating Siri.
 - Enable **autostart mode** to lock the keyboard immediately after opening the app.
 
 
