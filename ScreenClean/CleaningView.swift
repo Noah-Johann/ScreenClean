@@ -43,26 +43,42 @@ struct CleaningView: View {
                 Spacer()
                 
                 ZStack {
-                    Button(action: {
-                        keyboardManager.cleanup()
-                        NSApp.terminate(nil)
-                    }, label: {
-                        if #available(macOS 13.0, *) {
-                            Image(systemName: "x.circle")
-                                .renderingMode(.original)
+                    if #available(macOS 26.0, *) {
+                        Button(action: {
+                            NSApp.terminate(nil)
+                        }, label: {
+                            Image(systemName: "xmark")
                                 .resizable()
-                                .frame(width: 80, height: 80)
+                                .frame(width: 70, height: 70)
                                 .fontWeight(.light)
-                        } else {
-                            Image(systemName: "x.circle")
-                                .renderingMode(.original)
-                                .resizable()
-                                .frame(width: 80, height: 80)
-                        }
-                    })
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.bottom, 40)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(30)
+                                .glassEffect()
+                            
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.bottom, 40)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    } else {
+                        Button(action: {
+                            NSApp.terminate(nil)
+                        }, label: {
+                            if #available(macOS 13.0, *) {
+                                Image(systemName: "x.circle")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                                    .fontWeight(.light)
+                            } else {
+                                Image(systemName: "x.circle")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                            }
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.bottom, 40)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     
                     HStack {
                         Button(action: {
