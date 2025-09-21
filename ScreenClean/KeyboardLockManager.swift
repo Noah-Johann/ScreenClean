@@ -35,7 +35,7 @@ class KeyboardLockManager: ObservableObject {
     }
     
     private func startKeyboardLock() {
-        guard AXIsProcessTrusted() else {
+        guard AccessibilityManager.isAuthorized() else {
             print("No accessibility permissions - cannot lock keyboard")
             isKeyboardLocked = false
             return

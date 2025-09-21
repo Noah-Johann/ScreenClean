@@ -29,7 +29,7 @@ struct ScreenCleanApp: App {
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let status = AccessibilityManager.getStatus()
+        let status = AccessibilityManager.isAuthorized()
         
         if status {
             DispatchQueue.main.async {

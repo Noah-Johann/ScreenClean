@@ -8,17 +8,15 @@
 import SwiftUI
 
 class AccessibilityManager {
-    static func getStatus() -> Bool {
-        // Get current state for accessibility access
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: false]
-        let status = AXIsProcessTrustedWithOptions(options)
-
-        return status
+    static func isAuthorized(prompt: Bool = true) -> Bool {
+        let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
+        let options = [key: prompt] as CFDictionary
+        return AXIsProcessTrustedWithOptions(options)
     }
 
     @discardableResult
     static func requestAccess() -> Bool {
-        if AccessibilityManager.getStatus() {
+        if AccessibilityManager.isAuthorized() {
             return true
         }
 
